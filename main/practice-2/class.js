@@ -10,16 +10,16 @@
 // }
 
 class Class {
-    constructor(num){
+    constructor(num) {
         this.num = num;
     }
-    assignLeader(student){
+    assignLeader(student) {
         this.leader = student.name;
-        student.introduce = function(){
+        student.introduce = function () {
             return `My name is ${student.name}. I am ${student.age} years old. I am a Student. I am Leader of Class ${this.clazz.num}.`
         }
     }
-    
+
 }
 
 module.exports = Class;
