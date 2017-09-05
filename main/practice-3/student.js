@@ -1,11 +1,21 @@
 const Person = require('./person');
 
-module.exports = class Student extends Person {
-    constructor(name, age, clazz, id) {
-        super(name, age, id);
-        this.clazz = clazz;
+class Student extends Person {
+  constructor(name, age, clazz) {
+    super(name, age);
+    this.clazz = clazz;
+  }
+
+  introduce() {
+    let msg = `I haven't been allowed to join Class.`;
+    if (this.clazz.hasStudent(this)) {
+      msg = `I am at Class ${this.clazz.number}.`
     }
-    introduce() {
-        return `${super.introduce()} I am a Student. I haven't been allowed to join Class.`;
+    if (this.clazz.isLeader(this)) {
+      msg = `I am Leader of Class ${this.clazz.number}.`;
     }
+    return `${super.introduce()} I am a Student. ${msg}`;
+  }
 }
+
+module.exports = Student;

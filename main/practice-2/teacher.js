@@ -1,17 +1,19 @@
 const Person = require('./person');
 
 class Teacher extends Person {
-    constructor(name, age, clazzes, id) {
-        super(name, age, id);
-        this.clazzes = clazzes;
+  constructor(name, age, clazzes) {
+    super(name, age);
+    this.clazzes = clazzes;
+
+  }
+
+  introduce() {
+    let msg = 'I teach No Class';
+    if (this.clazzes.length > 0) {
+      msg = `I teach Class ${this.clazzes.map(klass => klass.number).join(',')}`;
     }
-    introduce() {
-        if (this.clazzes.length === 0) {
-            return `${super.introduce()} I am a Teacher. I teach No Class.`
-        } else {
-            return `${super.introduce()} I am a Teacher. I teach Class ${this.clazzes[0].num},${this.clazzes[1].num}.`
-        }
-    }
+    return `${super.introduce()} I am a Teacher. ${msg}.`;
+  }
 }
 
 module.exports = Teacher;

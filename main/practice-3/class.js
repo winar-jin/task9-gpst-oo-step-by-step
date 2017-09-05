@@ -1,35 +1,35 @@
-// Write your code here
-var Teacher = require('./teacher');
-
-module.exports = class Class {
-    constructor(num) {
-        this.num = num;
-    }
-    appendMember(student) {
-        student.clazz.num = this.num;
-        student.introduce = function () {
-            return `My name is ${this.name}. I am ${this.age} years old. I am a Student. I am at Class ${this.clazz.num}.`;
-        }
-        Teacher.notifyStudentAppended(`${student.name} has joined Class ${this.num}`);
-        //console.log(`I am ${teacher.name}. I know ${student.name} has joined Class ${student.clazz.num}`);
-    }
-    assignLeader(student) {
-        if (student.introduce() === `My name is ${student.name}. I am ${student.age} years old. I am a Student. I am at Class ${student.clazz.num}.`) {
-            if (student.clazz.num !== this.num) {
-                return `It is not one of us.`;
-            } else {
-                this.leader = student.name;
-                student.introduce = function () {
-                    return `My name is ${this.name}. I am ${this.age} years old. I am a Student. I am Leader of Class ${student.clazz.num}.`;
-                }
-                Teacher.notifyLeaderAssigned(`${student.name} become Leader of Class ${this.num}`);
-                return `Assign team leader successfully.`;
-                //console.log(`I am ${teacher.name}. I know ${student.name} become Leader of Class ${student.clazz.num}`);
-            }
-        } else return `It is not one of us.`;
-    }
-    hasStudent(stdent) {
-        if (stdent.clazz.num === this.num) return true;
-        else return false;
-    }
+class Clazz {
+  constructor(number) {
+    this.number = number;
+    this.students = [];
+    this.teachers = [];
+  }
 }
+
+Clazz.prototype.assignLeader = function (student) {
+  if (this.hasStudent(student)) {
+    this.leader = student.name;
+    this.teachers.forEach(t => t.notifyLeaderAssigned(`${student.name} become Leader of Class ${this.number}`));
+    return `Assign team leader successfully.`;
+  }
+  return `It is not one of us.`;
+};
+
+Clazz.prototype.isLeader = function (student) {
+  return this.leader === student.name;
+};
+
+Clazz.prototype.appendMember = function (student) {
+  this.students.push(student);
+  this.teachers.forEach(t => t.notifyStudentAppended(`${student.name} has joined Class ${this.number}`));
+};
+
+Clazz.prototype.hasStudent = function (student) {
+  return this.students.some(s => s.name === student.name);
+};
+
+Clazz.prototype.assignTeacher = function (teacher) {
+  this.teachers.push(teacher);
+};
+
+module.exports = Clazz;
